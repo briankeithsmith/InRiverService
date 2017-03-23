@@ -26,6 +26,8 @@ namespace APIModels.Avaya
         public static string AVAYA_USERKEY="AvayaTSWSUser";
         public static string AVAYA_PWDKEY = "AvayaTSWSPWD";
         public static string AVAYA_URL = "AvayaTSWSUrl";
+        public static string AVAYA_OUTDIAL="9";
+        public static string DEFAULT_COMPANY="9";
 
         #region MakeCall
         public static AvayaResult MakeCallByUser(string user, string dest)
@@ -57,7 +59,7 @@ namespace APIModels.Avaya
             // take the incoming number and add any prefixes to it for out-dial
             dest = PrefixDestination(sourceExt, dest);
 
-            AppUsage.Log("Avaya", "9", sourceExt, "MakeCall", dest);
+            AppUsage.Log("Avaya", DEFAULT_COMPANY, sourceExt, "MakeCall", dest);
 
             //Establish Service
             AvayaTSWS.TelephonyServiceService svc=new AvayaTSWS.TelephonyServiceService();
@@ -106,9 +108,9 @@ namespace APIModels.Avaya
                 //Charlotte
                 if (dest.Substring(0,3)=="704" || dest.Substring(0,3)=="980")
                 {
-                    return "9" + dest;
+                    return AVAYA_OUTDIAL + dest;
                 }
-                return "91" + dest;
+                return AVAYA_OUTDIAL + "1" + dest;
             }
             else
             {
@@ -117,13 +119,13 @@ namespace APIModels.Avaya
                     //Heiser/Miami
                     if (dest.Substring(0,3)=="585")
                     {
-                        return "9" + dest.Substring(3);
+                        return AVAYA_OUTDIAL + dest.Substring(3);
                     }
                     if (dest.Substring(0,3)=="704")
                     {
-                        return "9" + dest;
+                        return AVAYA_OUTDIAL + dest;
                     }
-                    return "91" + dest;
+                    return AVAYA_OUTDIAL + "1" + dest;
                     
                 }
             }
